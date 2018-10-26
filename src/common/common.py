@@ -5,7 +5,7 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 
-from typing import NamedTuple, Tuple
+from typing import NamedTuple, Tuple, List
 
 Grid = Tuple['numpy.ndarray', 'numpy.ndarray']
 
@@ -15,6 +15,13 @@ class Coords(NamedTuple):
 
     def __str__(self) -> str:
         return f'({self.x}, {self.y})'
+
+def unzip_coords(*coords) -> (List[float], List[float]):
+    xs, ys = [], []
+    for (x, y) in coords:
+        xs.append(x)
+        ys.append(y)
+    return (xs, ys)
 
 class Rect:
     def __init__(self, x_start: float, x_end: float, y_start: float, y_end: float):
@@ -58,7 +65,20 @@ def setup_fig(rect: Rect, size: int,             *, xlabel: str = 'x', ylabel: s
 stream_params = {'density': 2, 'linewidth': 1, 'arrowsize': 2, 'arrowstyle': '->'}
 scatter_params = {'color': '#CD2305', 's': 80, 'marker': 'o', 'linewidth': 0}
 
+def streamplot_with(*args, override):
+    params = stream_params.copy()
+    params.update(override)
+    plt.streamplot(*args, **params)
+
 def scatter_with(*args, override):
     params = scatter_params.copy()
     params.update(override)
-    plt.scatter(*args, **params)
+    plt.scatter(*args, **params)    
+
+def hypot(x0, y0, x1, y1):
+    return (x1 - x0)**2 + (y0 - y1)**2
+
+def sum_pair(a, b):
+    a0, a1 = a
+    b0, b1 = b
+    return (a0 + b0, a1 + b1)

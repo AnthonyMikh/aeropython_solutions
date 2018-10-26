@@ -1,6 +1,3 @@
-def hypot(x0, y0, x1, y1):
-    return (x1 - x0)**2 + (y0 - y1)**2
-
 class Source:
     def __init__(self, x: float, y: float, strength: float):
         self.x = x
